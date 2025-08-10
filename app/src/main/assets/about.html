@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Shelly Task</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>About Shelly Task</h1>
+    <p>This page is loaded locally from the app's assets folder.</p>
+
+    <section class="card">
+      <h2>Why a local WebView?</h2>
+      <ul>
+        <li>Demonstrates loading <strong>local HTML</strong> content</li>
+        <li>Supports optional <strong>CSS</strong> and <strong>JavaScript</strong></li>
+        <li>Keeps navigation <em>inside</em> the app via a WebViewClient</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Interactive demo</h2>
+      <button id="helloBtn" class="btn">Say Hello</button>
+      <p id="helloMsg" class="note" aria-live="polite"></p>
+    </section>
+
+    <section class="card">
+      <h2>Links</h2>
+      <p>
+        This link will also open <em>inside</em> the WebView:
+        <a href="https://developer.android.com/guide/webapps/webview">Android WebView Guide</a>
+      </p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
