@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -21,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -50,10 +47,7 @@ class DetailActivity : ComponentActivity() {
                     }
                 ) { padding ->
                     DetailScreen(
-                        modifier    = Modifier
-                            .padding(padding)
-                            .statusBarsPadding()
-                            .navigationBarsPadding(),
+                        modifier    = Modifier.padding(padding),
                         url         = url,
                         author      = author,
                         description = desc,
@@ -105,8 +99,7 @@ private fun DetailScreen(
         AsyncImage(
             modifier            = Modifier.aspectRatio(1f),
             model               = request,
-            contentDescription  = description,
-            contentScale        = ContentScale.Crop
+            contentDescription  = description
         )
 
         Text(

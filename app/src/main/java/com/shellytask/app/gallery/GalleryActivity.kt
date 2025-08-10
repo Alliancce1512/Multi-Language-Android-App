@@ -1,6 +1,5 @@
 package com.shellytask.app.gallery
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,18 +11,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -31,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -53,7 +52,6 @@ class GalleryActivity : ComponentActivity() {
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun GalleryScreen(viewModel: GalleryViewModel = viewModel()) {
     val uiState            by viewModel.uiState.collectAsState()
@@ -68,12 +66,11 @@ private fun GalleryScreen(viewModel: GalleryViewModel = viewModel()) {
             )
         },
         snackbarHost    = { SnackbarHost(snackbarHostState) }
-    ) {
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .statusBarsPadding()
-                .navigationBarsPadding()
+                .padding(paddingValues)
         ) {
             when (val state = uiState) {
                 is GalleryUiState.Loading   -> Loading()
@@ -137,6 +134,7 @@ private fun PhotoGrid(
             AsyncImage(
                 modifier            = Modifier
                     .aspectRatio(1f)
+                    .clip(RoundedCornerShape(8.dp))
                     .clickable {
                         DetailActivity.start(
                             context     = context,
@@ -152,13 +150,8 @@ private fun PhotoGrid(
         }
 
         if (state.canLoadMore) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = stringResource(R.string.network_loading))
-                }
+            item(span = { GridItemSpan(maxLineSpan) } ) {
+                Loading()
 
                 LaunchedEffect(state.photos.size) { onLoadMore() }
             }
