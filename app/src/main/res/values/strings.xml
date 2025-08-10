@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Shelly Task</string>
+    <string name="image_gallery">Image Gallery</string>
+    <string name="web_content">Web Content</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="legacy_network">Legacy Network</string>
+    <string name="action_fetch">Fetch</string>
+    <string name="network_loading">Loading…</string>
+    <string name="network_error">Error: %1$s</string>
+    <string name="network_hint">Press Fetch to download a small text file.</string>
+    <string name="placeholder_for_bluetooth_interactions">Placeholder for Bluetooth interactions</string>
+    <string name="placeholder_for_image_gallery">Placeholder for Image Gallery</string>
+    <string name="placeholder_for_webview_content">Placeholder for WebView content</string>
 </resources>
