@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -30,11 +31,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.shellytask.app.R
 import com.shellytask.app.gallery.ui.AppTopBar
 
@@ -117,19 +120,34 @@ private fun PhotoGrid(
         verticalArrangement     = Arrangement.spacedBy(8.dp),
         horizontalArrangement   = Arrangement.spacedBy(8.dp)
     ) {
-        items(state.photos) { p ->
+        items(
+            items       = state.photos,
+            key         = { it.id },
+            contentType = { "photo" }
+        ) { photo ->
+            val request = remember(key1 = photo.thumbUrl) {
+                ImageRequest.Builder(context)
+                    .data(data = photo.thumbUrl)
+                    .placeholder(drawableResId = R.drawable.img_placeholder)
+                    .error(drawableResId = R.drawable.img_error)
+                    .crossfade(enable = false)
+                    .build()
+            }
+
             AsyncImage(
                 modifier            = Modifier
+                    .aspectRatio(1f)
                     .clickable {
                         DetailActivity.start(
                             context     = context,
-                            url         = p.fullUrl,
-                            author      = p.photographer,
-                            description = p.description
+                            url         = photo.fullUrl,
+                            author      = photo.photographer,
+                            description = photo.description
                         )
                     },
-                model               = p.thumbUrl,
-                contentDescription  = p.description
+                model               = request,
+                contentDescription  = photo.description,
+                contentScale        = ContentScale.Crop
             )
         }
 

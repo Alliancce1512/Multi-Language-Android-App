@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Background -->
+    <path
+        android:fillColor="#ECEFF1"
+        android:pathData="M0,0h24v24h-24z" />
+
+    <!-- Border -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#B0BEC5"
+        android:strokeWidth="1.2"
+        android:pathData="M1.6,1.6h20.8v20.8h-20.8z" />
+
+    <!-- Mountains -->
+    <path
+        android:fillColor="#90A4AE"
+        android:pathData="M5.5,16 L10,11 L13,16 Z"/>
+    <path
+        android:fillColor="#B0BEC5"
+        android:pathData="M9.5,16 L12,13 L15,16 Z"/>
+
+</vector>

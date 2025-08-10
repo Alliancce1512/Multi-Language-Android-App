@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -18,10 +19,14 @@ import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.shellytask.app.R
 import com.shellytask.app.gallery.ui.AppTopBar
 
@@ -80,15 +85,28 @@ private fun DetailScreen(
     author      : String,
     description : String
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier            = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        val request = remember(url) {
+            ImageRequest.Builder(context)
+                .data(data = url)
+                .placeholder(drawableResId = R.drawable.img_placeholder)
+                .error(drawableResId = R.drawable.img_error)
+                .crossfade(enable = true)
+                .build()
+        }
+
         AsyncImage(
-            model               = url,
-            contentDescription  = description
+            modifier            = Modifier.aspectRatio(1f),
+            model               = request,
+            contentDescription  = description,
+            contentScale        = ContentScale.Crop
         )
 
         Text(
