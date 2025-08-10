@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -76,9 +77,12 @@ private fun GalleryScreen(viewModel: GalleryViewModel = viewModel()) {
                 is GalleryUiState.Loading   -> Loading()
                 is GalleryUiState.Error     -> {
                     LaunchedEffect(state.message) {
-                        snackbarHostState.showSnackbar(state.message)
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(R.string.oops_something_went_wrong)
+                        )
                     }
-                    Loading()
+
+                    ErrorMessage(text = stringResource(id = R.string.loading_images_error))
                 }
                 is GalleryUiState.Success   -> PhotoGrid(state) {
                     viewModel.loadNextPage()
@@ -99,6 +103,16 @@ private fun Loading() {
         contentAlignment    = Alignment.Center
     ) {
         CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun ErrorMessage(text: String) {
+    Box(
+        modifier            = Modifier.fillMaxSize(),
+        contentAlignment    = Alignment.Center
+    ) {
+        Text(text = text)
     }
 }
 

@@ -8,7 +8,9 @@
     <string name="action_fetch">Fetch</string>
     <string name="network_loading">Loading…</string>
     <string name="network_error">Error: %1$s</string>
+    <string name="loading_images_error">Error while retrieving images</string>
     <string name="network_hint">Press Fetch to download a small text file.</string>
+    <string name="oops_something_went_wrong">Oops, something went wrong.</string>
 
     <!-- Bluetooth UI -->
     <string name="stop_scan">Stop Scan</string>
