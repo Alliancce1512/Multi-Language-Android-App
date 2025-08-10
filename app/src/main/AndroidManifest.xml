@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -24,6 +23,10 @@
         </activity>
         <activity
             android:name        =".gallery.GalleryActivity"
+            android:exported    ="false"
+            android:label       ="@string/image_gallery" />
+        <activity
+            android:name        =".gallery.DetailActivity"
             android:exported    ="false"
             android:label       ="@string/image_gallery" />
         <activity

@@ -1,18 +1,149 @@
-package com.shellytask.app.gallery;
+package com.shellytask.app.gallery
 
-import android.os.Bundle;
+import android.annotation.SuppressLint
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import com.shellytask.app.R
+import com.shellytask.app.gallery.ui.AppTopBar
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+class GalleryActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            MaterialTheme {
+                GalleryScreen()
+            }
+        }
+    }
+}
 
-import com.shellytask.app.R;
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+private fun GalleryScreen(viewModel: GalleryViewModel = viewModel()) {
+    val uiState            by viewModel.uiState.collectAsState()
+    val snackbarHostState   = remember { SnackbarHostState() }
+    val context             = LocalContext.current
 
-public class GalleryActivity extends AppCompatActivity {
+    Scaffold(
+        topBar          = {
+            AppTopBar(
+                title   = stringResource(id = R.string.image_gallery),
+                onBack  = { (context as? android.app.Activity)?.finish() }
+            )
+        },
+        snackbarHost    = { SnackbarHost(snackbarHostState) }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .navigationBarsPadding()
+        ) {
+            when (val state = uiState) {
+                is GalleryUiState.Loading   -> Loading()
+                is GalleryUiState.Error     -> {
+                    LaunchedEffect(state.message) {
+                        snackbarHostState.showSnackbar(state.message)
+                    }
+                    Loading()
+                }
+                is GalleryUiState.Success   -> PhotoGrid(state) {
+                    viewModel.loadNextPage()
+                }
+            }
+        }
+    }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery);
-        setTitle(R.string.image_gallery);
+    LaunchedEffect(Unit) {
+        viewModel.refresh()
+    }
+}
+
+@Composable
+private fun Loading() {
+    Box(
+        modifier            = Modifier.fillMaxSize(),
+        contentAlignment    = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun PhotoGrid(
+    state           : GalleryUiState.Success,
+    onLoadMore      : () -> Unit
+) {
+    val context = LocalContext.current
+
+    LazyVerticalGrid(
+        modifier                = Modifier.fillMaxSize(),
+        columns                 = GridCells.Adaptive(minSize = 128.dp),
+        contentPadding          = PaddingValues(8.dp),
+        verticalArrangement     = Arrangement.spacedBy(8.dp),
+        horizontalArrangement   = Arrangement.spacedBy(8.dp)
+    ) {
+        items(state.photos) { p ->
+            AsyncImage(
+                modifier            = Modifier
+                    .clickable {
+                        DetailActivity.start(
+                            context     = context,
+                            url         = p.fullUrl,
+                            author      = p.photographer,
+                            description = p.description
+                        )
+                    },
+                model               = p.thumbUrl,
+                contentDescription  = p.description
+            )
+        }
+
+        if (state.canLoadMore) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = stringResource(R.string.network_loading))
+                }
+
+                LaunchedEffect(state.photos.size) { onLoadMore() }
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Shelly Task</string>
     <string name="image_gallery">Image Gallery</string>
+    <string name="image_details">Image Details</string>
     <string name="web_content">Web Content</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="legacy_network">Legacy Network</string>
