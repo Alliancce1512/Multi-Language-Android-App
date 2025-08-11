@@ -88,6 +88,11 @@ Recommended (keep secrets out of VCS):
   - Gallery lacks search and filtering.
   - No theming beyond Material 3 defaults; dark-mode and accessibility polish could be improved.
 
+- Navigation:
+  - Currently there is a mix of multiple activities, explicit Intent navigation, and Compose-driven screens throughout the project.
+  - Complete overhaul of the app navigation is required. It will have the task to centralise routes and back-stack handling/management.
+  - A single-activity architecture will be implemented by utilising the Jetpack Navigation and Fragments.
+
 - Bluetooth:
   - Scanning and simple connect flow only; limited GATT interaction in the UI.
   - Requires location permissions on some devices/versions; no background scanning.
