@@ -18,7 +18,7 @@ Clone and open in Android Studio:
 2. Let Gradle sync complete.
 3. Set your Unsplash API key (see “API Key” below), then Run the `app` configuration.
 
-Build from command line:
+Build from command line (or just start the build via Android Studio):
 ```bash
 cd Shelly-Task
 ./gradlew clean build
