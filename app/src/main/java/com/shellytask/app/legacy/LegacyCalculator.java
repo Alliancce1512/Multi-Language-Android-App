@@ -2,10 +2,6 @@ package com.shellytask.app.legacy;
 
 public final class LegacyCalculator {
 
-    private LegacyCalculator() {
-        // Utility class
-    }
-
     public static int add(int left, int right) {
         return left + right;
     }

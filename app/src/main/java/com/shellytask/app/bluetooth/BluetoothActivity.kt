@@ -21,6 +21,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.shellytask.app.R
 import java.util.UUID
@@ -35,7 +36,7 @@ class BluetoothActivity : AppCompatActivity() {
     private lateinit var devicesListView    : ListView
     private lateinit var gattValueTextView  : TextView
     private lateinit var progressScan       : ProgressBar
-    private var toolbar                     : androidx.appcompat.widget.Toolbar? = null
+    private var toolbar                     : Toolbar? = null
 
     private val discoveredDevices           : MutableList<BluetoothDevice> = mutableListOf()
     private lateinit var devicesAdapter     : ArrayAdapter<String>

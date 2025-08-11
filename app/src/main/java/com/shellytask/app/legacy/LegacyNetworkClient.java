@@ -10,9 +10,6 @@ import java.nio.charset.StandardCharsets;
 
 public final class LegacyNetworkClient {
 
-    private LegacyNetworkClient() {
-    }
-
     public static String fetchText(String urlString) throws IOException {
         HttpURLConnection connection    = null;
         InputStream inputStream         = null;
