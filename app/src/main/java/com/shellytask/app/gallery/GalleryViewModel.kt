@@ -63,13 +63,13 @@ class GalleryViewModel(
                         val prev = _uiState.value as GalleryUiState.Success
 
                         GalleryUiState.Success(
-                            photos      = prev.photos + photos,
+                            photos      = (prev.photos + photos).distinctBy { it.id },
                             page        = page,
                             canLoadMore = canLoadMore
                         )
                     } else {
                         GalleryUiState.Success(
-                            photos      = photos,
+                            photos      = photos.distinctBy { it.id },
                             page        = page,
                             canLoadMore = canLoadMore
                         )
