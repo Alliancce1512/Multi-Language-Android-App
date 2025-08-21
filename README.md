@@ -1,4 +1,4 @@
-## Shelly Task (Android)
+## Multi-Language App (Android)
 
 An Android showcase app that mixes modern Kotlin/Jetpack Compose with legacy Java components. It includes:
 - Gallery (Compose + Kotlin, Unsplash API)
